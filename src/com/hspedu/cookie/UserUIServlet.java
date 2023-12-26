@@ -13,6 +13,15 @@ public class UserUIServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("UserUIServlet started");
 
+        Cookie[] cookies = request.getCookies();
+        Cookie loginuserCookie = CookieUtils.readCookieByName("loginuser", cookies);
+        String username = null;
+        if (loginuserCookie != null) {
+            username = loginuserCookie.getValue();
+        }else {
+            username = "";
+        }
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = response.getWriter();
 
@@ -24,8 +33,8 @@ public class UserUIServlet extends HttpServlet {
                 "</head>\n" +
                 "<body>\n" +
                 "<h1>用户登录界面</h1>\n" +
-                "<form method=\"post\" action=\"\">\n" +
-                "    用户名:<input type=\"text\" name=\"username\"><br><br>\n" +
+                "<form method=\"post\" action=\"/cs/login\">\n" +
+                "    用户名:<input type=\"text\" value=\"" + username + "\" name=\"username\"><br><br>\n" +
                 "    密码:<input type=\"password\" name=\"password\"><br><br>\n" +
                 "    <input type=\"submit\" value=\"登录\">\n" +
                 "</form>\n" +
